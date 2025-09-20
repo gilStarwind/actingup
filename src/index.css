@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Minimal custom styles (kept for fallback) */
+:root { --bg: #000; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: #000; color: #fff; }
+a { color: inherit; }
