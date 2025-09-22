@@ -368,7 +368,7 @@ function Home() {
   const chips = [
     "Free Trial Class",
     "Sibling Discounts",
-    "Celebrating 10-years",
+    "Celebrating 10-years!",
   ];
 
   return (
