@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
-import { motion, useScroll, useTransform, useReducedMotion, useMotionTemplate } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion, useMotionTemplate } from "framer-motion";
 
 // Brand helpers
 const brand = {
@@ -127,16 +127,16 @@ function Header() {
       >
         <div className="px-4 py-3 space-y-2">
           <div className="grid grid-cols-2 gap-2">
-            <NavLink to="/classes" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">Classes</NavLink>
-            <NavLink to="/camps" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">Camps</NavLink>
-            <NavLink to="/calendar" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">Calendar</NavLink>
-            <NavLink to="/gallery" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">Gallery</NavLink>
-            <NavLink to="/about" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">About</NavLink>
-            <NavLink to="/contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-sm bg-neutral-900/70 border border-neutral-800">Contact</NavLink>
+            <NavLink to="/classes" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Classes</NavLink>
+            <NavLink to="/camps" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Camps</NavLink>
+            <NavLink to="/calendar" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Calendar</NavLink>
+            <NavLink to="/gallery" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Gallery</NavLink>
+            <NavLink to="/about" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">About</NavLink>
+            <NavLink to="/contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Contact</NavLink>
           </div>
           <div className="flex gap-2 pt-2">
-            <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-sm font-semibold text-black" style={{ backgroundColor: brand.yellow }}>Register</a>
-            <a href="https://app2.jackrabbitclass.com/portal/ppLogin.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-sm font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900">Login</a>
+            <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-base font-semibold text-black" style={{ backgroundColor: brand.yellow }}>Register</a>
+            <a href="https://app2.jackrabbitclass.com/portal/ppLogin.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-base font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900">Login</a>
           </div>
         </div>
       </motion.nav>
@@ -147,7 +147,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="border-t border-neutral-900 py-10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-sm text-neutral-400 flex flex-col sm:flex-row justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-base text-neutral-400 flex flex-col sm:flex-row justify-between gap-4">
         <p>© {new Date().getFullYear()} Acting Up Carolina LLC</p>
         <p>
           <a href="#" className="underline hover:text-neutral-200">Website Accessibility</a>
@@ -202,7 +202,7 @@ function Shell({ children }) {
       <GlowOrbs />
       <Header />
       <Stripe />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20">
         {children}
       </div>
       <Footer />
@@ -374,7 +374,7 @@ function Home() {
           transition={{ duration: 0.6 }}
         >
           <motion.p
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs mb-4"
+            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm mb-4"
             style={{
               borderColor: `${brand.purple}55`,
               backgroundColor: `${brand.purple}22`,
@@ -395,7 +395,7 @@ function Home() {
             {chips.map((chip) => (
               <motion.span
                 key={chip}
-                className="rounded-full px-3 py-1 text-sm border bg-neutral-900/60"
+                className="rounded-full px-3 py-1 text-base border bg-neutral-900/60 sm:text-sm"
                 style={{ borderColor: "#262626" }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.98 }}
@@ -416,7 +416,7 @@ function Home() {
               </Link>
             </motion.div>
           </div>
-          <p className="mt-6 text-sm text-neutral-400">
+        <p className="mt-6 text-base text-neutral-300">
             Call <a href="tel:+17043138228" className="underline hover:text-neutral-200">(704) 313‑8228</a> or email {" "}
             <a href="mailto:actingupcarolina@gmail.com" className="underline hover:text-neutral-200">actingupcarolina@gmail.com</a>
           </p>
@@ -424,7 +424,7 @@ function Home() {
           {/* marquee */}
           <div className="mt-10 overflow-hidden rounded-xl border" style={{ borderColor: `${brand.purple}44` }}>
             <motion.div
-              className="flex gap-10 whitespace-nowrap px-4 py-3 text-sm"
+              className="flex gap-10 whitespace-nowrap px-4 py-3 text-base"
               animate={{ x: prefersReducedMotion ? 0 : [0, -600] }}
               transition={{ repeat: prefersReducedMotion ? 0 : Infinity, duration: 18, ease: "linear" }}
             >
@@ -461,7 +461,7 @@ function Home() {
         {["Small classes", "Experienced teachers", "Performance showcases", "Welcoming community"].map((k) => (
           <motion.div
             key={k}
-            className="flex items-center gap-3 rounded-xl bg-neutral-900/40 px-4 py-3 text-sm text-neutral-300 cursor-default shadow-inner"
+            className="flex items-center gap-3 rounded-xl bg-neutral-900/40 px-4 py-3 text-base text-neutral-200 cursor-default shadow-inner"
           >
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: brand.yellow }} />
             {k}
@@ -482,7 +482,7 @@ function Classes() {
     <Shell>
       <div className="flex items-end justify-between gap-6 mb-8">
         <h2 className="text-3xl font-bold tracking-tight">Classes</h2>
-        <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-sm underline hover:text-neutral-200">See schedule</a>
+        <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-base underline hover:text-neutral-200">See schedule</a>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((c) => (
@@ -493,9 +493,9 @@ function Classes() {
             style={{ borderColor: `${brand.purple}33` }}
           >
             <h3 className="text-lg font-semibold">{c.title}</h3>
-            <p className="mt-2 text-sm text-neutral-300">{c.desc}</p>
+            <p className="mt-2 text-base text-neutral-200">{c.desc}</p>
             <div className="mt-4">
-              <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-sm font-medium hover:opacity-90"
+              <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-base font-medium hover:opacity-90"
                  style={{ color: brand.yellow }}
               >
                 View details & register →
@@ -506,12 +506,12 @@ function Classes() {
       </div>
       <div className="mt-12">
         <h3 className="text-2xl font-semibold tracking-tight">Class Schedule</h3>
-        <p className="mt-2 text-sm text-neutral-400 max-w-3xl">
+        <p className="mt-2 text-base text-neutral-300 max-w-3xl">
           Explore our current offerings, including meeting times, ages, and availability. Use the register link to secure your spot or join the waitlist when a class is full.
         </p>
-        <div className="mt-6 overflow-x-auto">
-          <table className="min-w-full divide-y divide-neutral-800 text-sm">
-            <thead className="bg-neutral-950/60 text-xs uppercase tracking-wide text-neutral-400">
+        <div className="mt-6 hidden md:block overflow-x-auto">
+          <table className="min-w-full divide-y divide-neutral-800 text-base">
+            <thead className="bg-neutral-950/60 text-sm uppercase tracking-wide text-neutral-400">
               <tr>
                 <th scope="col" className="px-4 py-3 text-left">Status</th>
                 <th scope="col" className="px-4 py-3 text-left">Class</th>
@@ -532,7 +532,7 @@ function Classes() {
                 <tr key={row.title} className="align-top">
                   <td className="px-4 py-4 whitespace-nowrap">
                     <span
-                      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                      className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"
                       style={{
                         backgroundColor: row.status === 'Register' ? brand.yellow : '#27272a',
                         color: row.status === 'Register' ? '#111827' : '#f4f4f5',
@@ -542,20 +542,71 @@ function Classes() {
                     </span>
                   </td>
                   <td className="px-4 py-4 font-medium text-neutral-100 min-w-[220px]">{row.title}</td>
-                  <td className="px-4 py-4 text-neutral-300 max-w-xl whitespace-normal">{row.description}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.days}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.times}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.gender}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.ages}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.openings}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.starts}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.ends}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.session}</td>
-                  <td className="px-4 py-4 text-neutral-200 whitespace-nowrap">{row.tuition}</td>
+                  <td className="px-4 py-4 text-neutral-200 max-w-xl whitespace-normal">{row.description}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.days}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.times}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.gender}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.ages}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.openings}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.starts}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.ends}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.session}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.tuition}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="mt-6 space-y-4 md:hidden">
+          {CLASS_SCHEDULE.map((row) => (
+            <article
+              key={`${row.title}-mobile`}
+              className="rounded-2xl border border-neutral-800/80 bg-neutral-950/70 p-4 text-base text-neutral-200 shadow-inner"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span
+                  className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"
+                  style={{
+                    backgroundColor: row.status === 'Register' ? brand.yellow : '#27272a',
+                    color: row.status === 'Register' ? '#111827' : '#f4f4f5',
+                  }}
+                >
+                  {row.status}
+                </span>
+                <h4 className="text-lg font-semibold text-neutral-50">{row.title}</h4>
+              </div>
+              <p className="mt-3 text-neutral-300 leading-relaxed">{row.description}</p>
+              <dl className="mt-4 grid grid-cols-1 gap-3 text-sm text-neutral-300">
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Days</dt>
+                  <dd>{row.days}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Times</dt>
+                  <dd>{row.times}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Ages</dt>
+                  <dd>{row.ages}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Openings</dt>
+                  <dd>{row.openings}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Session</dt>
+                  <dd>{row.session}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Tuition</dt>
+                  <dd>{row.tuition}</dd>
+                </div>
+              </dl>
+              <div className="mt-4 border-t border-neutral-800 pt-3 text-sm text-neutral-400">
+                <span>Starts {row.starts} • Ends {row.ends}</span>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </Shell>
@@ -575,14 +626,14 @@ function Camps() {
           <p className="mt-2">
             Our camps help students express themselves, gain confidence, and learn the art of communication.
           </p>
-          <p className="mt-2 text-sm text-neutral-400">
+          <p className="mt-2 text-base text-neutral-300">
             *2026 Camp registration will open at the end of February 2026
           </p>
         </div>
 
         <div className="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
           <h4 className="text-lg font-semibold text-neutral-100">Payment Policy</h4>
-          <p className="mt-2 text-sm text-neutral-300">
+          <p className="mt-2 text-base text-neutral-200">
             A non-refundable $50 deposit is charged at registration. This deposit holds your spot in camp and is applied toward your balance, which is due on the first day of each camp.
           </p>
         </div>
@@ -614,7 +665,7 @@ function Calendar() {
           </a>
         </div>
         <div className="rounded-2xl border bg-neutral-950 p-6" style={{ borderColor: `#262626` }}>
-          <p className="text-neutral-400 text-sm">Embed your Google/Apple calendar here or list key dates as cards.</p>
+          <p className="text-neutral-300 text-base">Embed your Google/Apple calendar here or list key dates as cards.</p>
         </div>
       </div>
     </Shell>
@@ -627,6 +678,7 @@ function Gallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const labelFor = (slug) => {
     const map = {
@@ -686,73 +738,258 @@ function Gallery() {
     };
   }, [resolvedPhotosPath]);
 
+  const closeLightbox = React.useCallback(() => setLightboxIndex(null), []);
+  const showNext = React.useCallback(() => {
+    setLightboxIndex((prev) => {
+      if (prev === null || !images.length) return prev;
+      return (prev + 1) % images.length;
+    });
+  }, [images.length]);
+  const showPrev = React.useCallback(() => {
+    setLightboxIndex((prev) => {
+      if (prev === null || !images.length) return prev;
+      return (prev - 1 + images.length) % images.length;
+    });
+  }, [images.length]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowRight") showNext();
+      if (event.key === "ArrowLeft") showPrev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxIndex, closeLightbox, showNext, showPrev]);
+
+  const openLightbox = (index) => {
+    if (index < 0 || index >= images.length) return;
+    setLightboxIndex(index);
+  };
+
+  const activeLabel = activeShow ? labelFor(activeShow) : "Gallery";
+  const featuredPhoto = images[0] || null;
+  const featuredSrc = featuredPhoto ? publicAsset(featuredPhoto.src || "") : "";
+  const restPhotos = images.slice(1);
+  const lightboxPhoto = lightboxIndex !== null ? images[lightboxIndex] : null;
+  const lightboxSrc = lightboxPhoto ? publicAsset(lightboxPhoto.src || "") : "";
+
   return (
     <Shell>
-      <h2 className="text-3xl font-bold tracking-tight">Gallery</h2>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {shows.map((slug) => (
-          <NavLink
-            key={slug}
-            to={`/gallery/${slug}`}
-            className={({ isActive }) =>
-              `rounded-full px-3 py-1 text-sm border ${
-                isActive ? "bg-neutral-900/70 text-white" : "text-neutral-300 hover:text-white/90"
-              }`
-            }
-            style={{ borderColor: "#262626" }}
-          >
-            {labelFor(slug)}
-          </NavLink>
-        ))}
-        {!shows.length && (
-          <span className="text-sm text-neutral-400">
-            No shows found. Add <code>/public/shows/index.json</code>.
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Gallery</h2>
+          <p className="mt-2 text-base text-neutral-300 max-w-xl">
+            Browse highlights from recent productions. Tap a photo to open it full-screen and use your arrow keys to keep exploring.
+          </p>
+        </div>
+        {images.length > 0 && (
+          <span className="text-sm uppercase tracking-widest text-neutral-400">
+            {images.length} {images.length === 1 ? "photo" : "photos"}
           </span>
         )}
       </div>
 
-      <div className="mt-6">
-        {loading && <div className="text-sm text-neutral-400">Loading photos…</div>}
+      <div className="mt-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/50 p-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <span className="text-sm uppercase tracking-wide text-neutral-400">Productions</span>
+            <h3 className="text-lg font-semibold text-neutral-100">{activeLabel}</h3>
+          </div>
+          <Link
+            to="/classes"
+            className="hidden sm:inline-flex items-center rounded-full border border-neutral-800 px-3 py-1 text-sm font-medium text-neutral-300 hover:text-white/90"
+          >
+            View programs
+          </Link>
+        </div>
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+          {shows.map((slug) => (
+            <NavLink
+              key={slug}
+              to={`/gallery/${slug}`}
+              className={({ isActive }) =>
+                `group relative inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition ${
+                  isActive
+                    ? "border-violet-500/60 bg-violet-500/10 text-white"
+                    : "border-neutral-700/70 text-neutral-300 hover:border-neutral-500 hover:text-white"
+                }`
+              }
+            >
+              <span className="inline-flex h-2 w-2 rounded-full bg-current opacity-60" aria-hidden="true" />
+              {labelFor(slug)}
+            </NavLink>
+          ))}
+          {!shows.length && (
+            <span className="rounded-full border border-dashed border-neutral-700 px-4 py-2 text-base text-neutral-300">
+              No shows found. Add `/public/shows/index.json`.
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-8 space-y-6">
+        {loading && <div className="text-base text-neutral-300">Loading photos…</div>}
         {error && (
-          <div className="text-sm text-red-400">
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-base text-red-100">
             Could not load <code>{resolvedPhotosPath || photosPath || "(unknown path)"}</code> ({error})
           </div>
         )}
         {!loading && !error && activeShow && (
           images.length ? (
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {images.map((photo, index) => {
-                const rawSrc = photo?.src || "";
-                const resolvedSrc = publicAsset(rawSrc);
-                if (!resolvedSrc) return null;
-                return (
-                  <figure
-                    key={`${rawSrc}-${index}`}
-                    className="overflow-hidden rounded-xl border border-neutral-800/70 bg-neutral-950/60"
+            <>
+              {featuredPhoto && featuredSrc && (
+                <motion.figure
+                  layout
+                  className="relative overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950/60 shadow-2xl"
+                >
+                  <button
+                    type="button"
+                    onClick={() => openLightbox(0)}
+                    className="group block h-full w-full text-left focus:outline-none"
                   >
-                    <a href={resolvedSrc} target="_blank" rel="noopener noreferrer" className="block">
-                      <img
-                        src={resolvedSrc}
-                        alt={photo?.alt || photo?.caption || `Photo ${index + 1}`}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-200 hover:opacity-90"
-                      />
-                    </a>
-                    {photo?.caption && (
-                      <figcaption className="px-3 py-2 text-xs text-neutral-300">
-                        {photo.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                );
-              })}
-            </div>
+                    <img
+                      src={featuredSrc}
+                      alt={featuredPhoto.alt || featuredPhoto.caption || `${activeLabel} highlight`}
+                      loading="lazy"
+                      className="h-[20rem] w-full object-cover sm:h-[28rem] transition duration-500 group-hover:scale-[1.02]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-6">
+                      <div>
+                        <p className="text-sm uppercase tracking-widest text-white/70">Featured moment</p>
+                        <p className="text-lg font-semibold text-white drop-shadow">
+                          {featuredPhoto.caption || featuredPhoto.alt || activeLabel}
+                        </p>
+                      </div>
+                      <span className="inline-flex w-max items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-white/90 backdrop-blur">
+                        View full-screen
+                        <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path d="M5 5h4a1 1 0 100-2H4a1 1 0 00-1 1v5a1 1 0 102 0V5zM11 17h5a1 1 0 001-1v-5a1 1 0 10-2 0v4h-4a1 1 0 100 2z" />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                </motion.figure>
+              )}
+
+              {restPhotos.length > 0 && (
+                <div className="columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-3">
+                  {restPhotos.map((photo, index) => {
+                    const photoIndex = index + 1;
+                    const rawSrc = photo?.src || "";
+                    const resolvedSrc = publicAsset(rawSrc);
+                    if (!resolvedSrc) return null;
+                    return (
+                      <motion.figure
+                        key={`${rawSrc}-${photoIndex}`}
+                        layout
+                        className="group relative overflow-hidden rounded-2xl border border-neutral-800/70 bg-neutral-950/60"
+                        style={{ breakInside: "avoid" }}
+                        whileHover={{ y: -2 }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => openLightbox(photoIndex)}
+                          className="block w-full text-left focus:outline-none"
+                          aria-label={`Open photo ${photoIndex + 1} from ${activeLabel}`}
+                        >
+                          <img
+                            src={resolvedSrc}
+                            alt={photo?.alt || photo?.caption || `${activeLabel} photo ${photoIndex + 1}`}
+                            loading="lazy"
+                            className="w-full rounded-2xl object-cover transition duration-300 group-hover:scale-[1.02]"
+                          />
+                          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent p-4 opacity-0 transition group-hover:opacity-100">
+                            <p className="text-sm uppercase tracking-wide text-white/70">Tap to enlarge</p>
+                            {photo?.caption && (
+                              <p className="mt-1 text-base font-medium text-white">
+                                {photo.caption}
+                              </p>
+                            )}
+                          </div>
+                        </button>
+                      </motion.figure>
+                    );
+                  })}
+                </div>
+              )}
+            </>
           ) : (
-            <div className="text-sm text-neutral-400">No photos posted yet for this show.</div>
+            <div className="rounded-xl border border-neutral-800/70 bg-neutral-950/60 px-4 py-6 text-base text-neutral-300">
+              No photos posted yet for this show.
+            </div>
           )
         )}
       </div>
+
+      <AnimatePresence>
+        {lightboxPhoto && lightboxSrc && (
+          <motion.div
+            key="lightbox"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeLightbox}
+          >
+            <motion.div
+              className="relative mx-4 flex max-h-[90vh] w-full max-w-5xl items-center justify-center"
+              initial={{ scale: 0.97, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.97, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img
+                src={lightboxSrc}
+                alt={lightboxPhoto.alt || lightboxPhoto.caption || `${activeLabel} photo`}
+                className="max-h-[90vh] w-auto rounded-3xl border border-neutral-800/80 bg-neutral-950 object-contain"
+              />
+              <button
+                type="button"
+                onClick={closeLightbox}
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black/90"
+                aria-label="Close photo"
+              >
+                <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={showPrev}
+                    className="absolute left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/80"
+                    aria-label="Previous photo"
+                  >
+                    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                      <path d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={showNext}
+                    className="absolute right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/80"
+                    aria-label="Next photo"
+                  >
+                    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                      <path d="M7.293 4.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 11-1.414-1.414L11.586 10 7.293 5.707a1 1 0 010-1.414z" />
+                    </svg>
+                  </button>
+                </>
+              )}
+              {(lightboxPhoto.caption || lightboxPhoto.alt) && (
+                <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-black/70 px-4 py-3 text-base text-white backdrop-blur">
+                  {lightboxPhoto.caption || lightboxPhoto.alt}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Shell>
   );
 }
@@ -776,16 +1013,16 @@ function About() {
               )}
               <div>
                 <h4 className="font-semibold leading-tight">{t.name}</h4>
-                <p className="text-sm text-neutral-400">{t.role}</p>
+                <p className="text-base text-neutral-300">{t.role}</p>
               </div>
             </div>
-            <p className="mt-4 text-sm text-neutral-300 leading-relaxed">{t.bio}</p>
+            <p className="mt-4 text-base text-neutral-200 leading-relaxed">{t.bio}</p>
           </motion.article>
         ))}
       </div>
 
       <div className="mt-10 rounded-2xl border bg-neutral-950 p-6" style={{ borderColor: `#262626` }}>
-        <p className="text-sm text-neutral-300">
+        <p className="text-base text-neutral-200">
           Interested in joining our team? Send your resume to{' '}
           <a className="underline" href="mailto:actingupcarolina@gmail.com" style={{ color: brand.yellow }}>actingupcarolina@gmail.com</a>.
         </p>
@@ -809,7 +1046,7 @@ function Contact() {
           <input className="w-full rounded-xl bg-neutral-900 border px-4 py-3" placeholder="Email" type="email" style={{ borderColor: `#262626` }} />
           <textarea className="w-full rounded-xl bg-neutral-900 border px-4 py-3" placeholder="Message" rows={4} style={{ borderColor: `#262626` }} />
           <button type="button" className="rounded-xl px-5 py-3 font-semibold text-black" style={{ backgroundColor: brand.yellow }}>
-            Send inquiry (demo)
+            Send Inquiry
           </button>
         </form>
       </div>
