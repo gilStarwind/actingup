@@ -1,16 +1,51 @@
+version: "3.8"
+
 services:
+  # One-shot builder that compiles Vite into a shared volume
+  builder:
+    image: node:20-alpine
+    container_name: actingup-builder
+    working_dir: /src/app
+    volumes:
+      - ../app:/src/app:ro           # your app code from repo
+      - site:/out                    # where the built files will land
+    command: >
+      sh -lc "
+        echo 'Installing deps...' &&
+        npm ci &&
+        echo 'Building...' &&
+        npm run build &&
+        rm -rf /out/* &&
+        cp -r dist/* /out/ &&
+        echo 'Build complete.'
+      "
+    restart: "no"
+
+  # Nginx serving the built files from the shared volume
   web:
-    build: ../app                  # builds the image FROM the app folder (multi-stage)
+    image: nginx:1.27-alpine
     container_name: actingup-nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
+      - site:/usr/share/nginx/html:ro
       - ./nginx/actingup.conf:/etc/nginx/conf.d/actingup.conf:ro
       - certbot-www:/var/www/certbot:ro
       - certbot-certs:/etc/letsencrypt
+    # Wait for builder to write index.html before starting nginx
+    command: >
+      sh -lc '
+        echo "Waiting for site build..."
+        while [ ! -f /usr/share/nginx/html/index.html ]; do sleep 1; done
+        echo "Starting nginx";
+        nginx -g "daemon off;"
+      '
+    depends_on:
+      - builder
     restart: unless-stopped
 
+  # Certbot sidecar for issuing/renewing SSL certs
   certbot:
     image: certbot/certbot:latest
     container_name: actingup-certbot
@@ -21,5 +56,6 @@ services:
     restart: unless-stopped
 
 volumes:
+  site:
   certbot-www:
   certbot-certs:
