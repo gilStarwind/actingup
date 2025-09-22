@@ -250,7 +250,7 @@ const INSTRUCTORS = [
 
 const CLASS_SCHEDULE = [
   {
-    status: 'Register',
+    status: 'Open',
     title: 'Broadway Babies (Pre-school, ages 4-6)',
     description:
       "This high-energy class introduces your budding star to the magical world of acting, singing, and dancing! Designed to build confidence, spark creativity, and encourage self-expression, students will explore dramatic play, storytelling, theatre games, and fun musical routines. Along the way, they'll grow social skills and imagination in a playful, supportive environment!",
@@ -263,9 +263,10 @@ const CLASS_SCHEDULE = [
     ends: '05/11/2026',
     session: '2025-26 Classes',
     tuition: '$80.00',
+    fees: '$0.00'
   },
   {
-    status: 'Register',
+    status: 'Open',
     title: 'Musical Theatre I, Performance (Alice In Wonderland)',
     description:
       'This class teaches the fundamentals of acting, singing, and musical theatre movement. These students will gain confidence and improve their performance skills, creativity, and teamwork as we prepare for the musical Alice in Wonderland Kids, presented in the spring of 2026! (date TBD) NOTE: In addition to the monthly class tuition, there is a one-time performance fee of $125 due by the end of January 2026. Some Saturday rehearsals will be added at the beginning of the year, once we see the need for extra rehearsal time (no extra cost). We will make every effort to work around schedules, HOWEVER, anyone in this class must make this show a priority. This is a yearlong commitment (mid-August 2025-May 2026).',
@@ -278,9 +279,10 @@ const CLASS_SCHEDULE = [
     ends: '05/12/2026',
     session: '2025-26 Classes',
     tuition: '$90.00',
+    fees: '$125.00'
   },
   {
-    status: 'Register',
+    status: 'Open',
     title: 'Show Choir',
     description:
       'Do you love to sing, dance, and perform? Then, Show Choir is the place for you! In this exciting class, students will learn fun songs in a variety of styles, move and groove with beginner-friendly choreography, build confidence on stage, practice solo and group singing, and work together as a team to put on high-energy performances! No experience needed, just bring your energy and your smile!',
@@ -293,9 +295,10 @@ const CLASS_SCHEDULE = [
     ends: '05/18/2026',
     session: '2025-26 Classes',
     tuition: '$85.00',
+    fees: '$0.00'
   },
   {
-    status: 'Register',
+    status: 'Open',
     title: 'Acting / Improv Fundamentals (ages 9-12)',
     description:
       'This class teaches acting skills that will build self-esteem and confidence. From the fundamentals of acting to the basic rules of improv such as thinking on the spot, focus, and how to command attention in a positive way. Students will work on concentration, focus, communication skills, eye contact, enunciation, projection, and memorization...all of which can be helpful on stage and in life!',
@@ -308,6 +311,7 @@ const CLASS_SCHEDULE = [
     ends: '05/11/2026',
     session: '2025-26 Classes',
     tuition: '$85.00',
+    fees: '$0.00'
   },
   {
     status: 'Waitlist',
@@ -323,6 +327,7 @@ const CLASS_SCHEDULE = [
     ends: '05/14/2026',
     session: '2025-26 Classes',
     tuition: '$95.00',
+    fees: '$125.00'
   },
   {
     status: 'Waitlist',
@@ -338,6 +343,7 @@ const CLASS_SCHEDULE = [
     ends: '05/12/2026',
     session: '2025-26 Classes',
     tuition: '$90.00',
+    fees: '$0.00'
   },
   {
     status: 'Waitlist',
@@ -353,6 +359,7 @@ const CLASS_SCHEDULE = [
     ends: '05/14/2026',
     session: '2025-26 Classes',
     tuition: '$85.00',
+    fees: '$0.00'
   },
 ];
 
@@ -361,7 +368,7 @@ function Home() {
   const chips = [
     "Free Trial Class",
     "Sibling Discounts",
-    "Open Since 2014",
+    "Celebrating 10-years",
   ];
 
   return (
@@ -510,8 +517,8 @@ function Classes() {
           Explore our current offerings, including meeting times, ages, and availability. Use the register link to secure your spot or join the waitlist when a class is full.
         </p>
         <div className="mt-6 hidden md:block overflow-x-auto">
-          <table className="min-w-full divide-y divide-neutral-800 text-base">
-            <thead className="bg-neutral-950/60 text-sm uppercase tracking-wide text-neutral-400">
+          <table className="relative min-w-full divide-y divide-neutral-800 text-base">
+            <thead className="sticky top-0 z-10 bg-neutral-950/90 text-sm uppercase tracking-wide text-neutral-300 backdrop-blur">
               <tr>
                 <th scope="col" className="px-4 py-3 text-left">Status</th>
                 <th scope="col" className="px-4 py-3 text-left">Class</th>
@@ -525,6 +532,7 @@ function Classes() {
                 <th scope="col" className="px-4 py-3 text-left">Class Ends</th>
                 <th scope="col" className="px-4 py-3 text-left">Session</th>
                 <th scope="col" className="px-4 py-3 text-left">Tuition</th>
+                <th scope="col" className="px-4 py-3 text-left">Performance Fee</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-900 bg-black/40">
@@ -534,8 +542,8 @@ function Classes() {
                     <span
                       className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"
                       style={{
-                        backgroundColor: row.status === 'Register' ? brand.yellow : '#27272a',
-                        color: row.status === 'Register' ? '#111827' : '#f4f4f5',
+                        backgroundColor: row.status === 'Open' ? brand.yellow : '#27272a',
+                        color: row.status === 'Open' ? '#111827' : '#f4f4f5',
                       }}
                     >
                       {row.status}
@@ -552,6 +560,7 @@ function Classes() {
                   <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.ends}</td>
                   <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.session}</td>
                   <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.tuition}</td>
+                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.fees}</td>
                 </tr>
               ))}
             </tbody>
@@ -567,8 +576,8 @@ function Classes() {
                 <span
                   className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"
                   style={{
-                    backgroundColor: row.status === 'Register' ? brand.yellow : '#27272a',
-                    color: row.status === 'Register' ? '#111827' : '#f4f4f5',
+                    backgroundColor: row.status === 'Open' ? brand.yellow : '#27272a',
+                    color: row.status === 'Open' ? '#111827' : '#f4f4f5',
                   }}
                 >
                   {row.status}
@@ -600,6 +609,10 @@ function Classes() {
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Tuition</dt>
                   <dd>{row.tuition}</dd>
+                  <div className="flex justify-between-gap-4">
+                    <dt className="font-medium text-neutral 100">Fees</dt>
+                    <dd>{row.fees}</dd>
+                    </div>
                 </div>
               </dl>
               <div className="mt-4 border-t border-neutral-800 pt-3 text-sm text-neutral-400">
