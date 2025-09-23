@@ -5,12 +5,14 @@ on:
 permissions:
   contents: read
   packages: write
+
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3
@@ -25,17 +27,11 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest
-            type=raw,value={{date 'YYYYMMDD-HHmm'}}
 
       - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      # (optional) trigger Portainer webhook after pushing the image
-      - name: Trigger Portainer webhook
-        if: success() && secrets.PORTAINER_WEBHOOK_URL != ''
-        run: |
-          curl -fsSL -X POST "${{ secrets.PORTAINER_WEBHOOK_URL }}"
