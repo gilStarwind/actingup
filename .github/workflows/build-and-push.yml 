@@ -1,7 +1,7 @@
 name: build-and-push
 on:
   push:
-    branches: [ main ]   # ensure you're pushing to main
+    branches: [ main ]
 permissions:
   contents: read
   packages: write
@@ -21,17 +21,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Optional: print which image name will be used
       - name: Show image name
         run: echo "Image: ghcr.io/${{ github.repository }}:latest"
 
-      # 👇 pick ONE of the two blocks below
-
-      # BLOCK A: Dockerfile + build context both in ./app
-      # - uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./app
-      #     file: ./app/Dockerfile
-      #     push: true
-      #     platforms: linux/amd64,linux/arm64,linux/arm/v7
-      #     tags: ghcr.io/${{ github.repository }}:latest
+      # ✅ BLOCK A (enabled): Dockerfile + build context both in ./app
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./app
+          file: ./app/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: ghcr.io/${{ github.repository }}:latest
