@@ -30,12 +30,13 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
-          context: ./app
-          file: ./app/Dockerfile
+          context: ./app                 # <— build context is app/
+          file: ./app/Dockerfile         # <— Dockerfile location
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.IMAGE }}
-          # build-args: |
-          #   VITE_API_URL=/        # <- uncomment & set if your build needs it
           provenance: false
           sbom: false
+          # If your build needs env vars, uncomment:
+          # build-args: |
+          #   VITE_API_URL=/ 

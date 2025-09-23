@@ -1,12 +1,14 @@
-# build
-FROM node:20-alpine AS build
+# ===== build stage (Debian for better toolchain compat) =====
+FROM node:20-bookworm-slim AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --loglevel=verbose
 COPY . .
-RUN npm run build
+# More RAM for big builds (CRA/Vite/Rollup/TS)
+ENV NODE_OPTIONS=--max-old-space-size=3072
+RUN npm run build --verbose
 
-# run
+# ===== run stage (serve static with nginx) =====
 FROM nginx:alpine
 RUN rm -f /etc/nginx/conf.d/default.conf
 RUN printf 'server { \
