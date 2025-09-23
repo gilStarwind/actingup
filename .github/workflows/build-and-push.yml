@@ -21,12 +21,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Show image name
-        run: |
-          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:latest"
-          echo "Image will be pushed as: $IMAGE"
+      - name: Set lowercase repo name
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:latest" >> $GITHUB_ENV
 
-      # ✅ BLOCK A (enabled): Dockerfile + build context both in ./app
       - uses: docker/build-push-action@v6
         with:
           context: ./app
