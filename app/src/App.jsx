@@ -532,29 +532,39 @@ function Classes() {
         <p className="mt-2 text-base text-neutral-300 max-w-3xl">
           Explore our current offerings, including meeting times, ages, and availability. Use the register link to secure your spot or join the waitlist when a class is full.
         </p>
-        <div className="mt-6 hidden md:block overflow-x-auto">
-          <table className="relative min-w-full divide-y divide-neutral-800 text-base">
-            <thead className="sticky top-0 z-10 bg-neutral-950/90 text-sm uppercase tracking-wide text-neutral-300 backdrop-blur">
+        <div className="mt-6 hidden md:block">
+          <table className="min-w-full table-fixed divide-y divide-neutral-800 overflow-hidden rounded-2xl border border-neutral-800/80 bg-black/40 text-base">
+            <thead className="bg-neutral-950/90 text-sm uppercase tracking-wide text-neutral-300">
               <tr>
-                <th scope="col" className="px-4 py-3 text-left">Status</th>
-                <th scope="col" className="px-4 py-3 text-left">Class</th>
-                <th scope="col" className="px-4 py-3 text-left">Description</th>
-                <th scope="col" className="px-4 py-3 text-left">Days</th>
-                <th scope="col" className="px-4 py-3 text-left">Times</th>
-                <th scope="col" className="px-4 py-3 text-left">Gender</th>
-                <th scope="col" className="px-4 py-3 text-left">Ages</th>
-                <th scope="col" className="px-4 py-3 text-left">Openings</th>
-                <th scope="col" className="px-4 py-3 text-left">Class Starts</th>
-                <th scope="col" className="px-4 py-3 text-left">Class Ends</th>
-                <th scope="col" className="px-4 py-3 text-left">Session</th>
-                <th scope="col" className="px-4 py-3 text-left">Tuition</th>
-                <th scope="col" className="px-4 py-3 text-left">Performance Fee</th>
+                <th scope="col" className="px-4 py-3 text-left w-[28%]">Class</th>
+                <th scope="col" className="px-4 py-3 text-left w-[24%]">Schedule</th>
+                <th scope="col" className="px-4 py-3 text-left w-[18%]">Ages &amp; Gender</th>
+                <th scope="col" className="px-4 py-3 text-left w-[15%]">Enrollment</th>
+                <th scope="col" className="px-4 py-3 text-left w-[15%]">Tuition &amp; Fees</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-900 bg-black/40">
+            <tbody className="divide-y divide-neutral-900">
               {CLASS_SCHEDULE.map((row) => (
                 <tr key={row.title} className="align-top">
-                  <td className="px-4 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4">
+                    <div className="font-semibold text-neutral-100">{row.title}</div>
+                    <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{row.description}</p>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-neutral-200">
+                    <div className="font-medium text-neutral-100">{row.days}</div>
+                    <div className="mt-1 text-neutral-200">{row.times}</div>
+                    <div className="mt-3 text-neutral-400 text-xs uppercase tracking-wide">Session</div>
+                    <div className="text-neutral-200">{row.session}</div>
+                    <div className="mt-1 text-neutral-400 text-xs uppercase tracking-wide">Dates</div>
+                    <div className="text-neutral-200">{row.starts} – {row.ends}</div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-neutral-200">
+                    <div><span className="text-neutral-400 text-xs uppercase tracking-wide">Ages</span></div>
+                    <div className="text-neutral-100">{row.ages}</div>
+                    <div className="mt-3"><span className="text-neutral-400 text-xs uppercase tracking-wide">Gender</span></div>
+                    <div className="text-neutral-100">{row.gender}</div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-neutral-200">
                     <span
                       className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"
                       style={{
@@ -564,19 +574,15 @@ function Classes() {
                     >
                       {row.status}
                     </span>
+                    <div className="mt-3 text-neutral-400 text-xs uppercase tracking-wide">Openings</div>
+                    <div className="text-neutral-100">{row.openings}</div>
                   </td>
-                  <td className="px-4 py-4 font-medium text-neutral-100 min-w-[220px]">{row.title}</td>
-                  <td className="px-4 py-4 text-neutral-200 max-w-xl whitespace-normal">{row.description}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.days}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.times}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.gender}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.ages}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.openings}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.starts}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.ends}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.session}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.tuition}</td>
-                  <td className="px-4 py-4 text-neutral-100 whitespace-nowrap">{row.fees}</td>
+                  <td className="px-4 py-4 text-sm text-neutral-200">
+                    <div><span className="text-neutral-400 text-xs uppercase tracking-wide">Tuition</span></div>
+                    <div className="text-neutral-100">{row.tuition}</div>
+                    <div className="mt-3"><span className="text-neutral-400 text-xs uppercase tracking-wide">Performance Fee</span></div>
+                    <div className="text-neutral-100">{row.fees}</div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -604,31 +610,43 @@ function Classes() {
               <dl className="mt-4 grid grid-cols-1 gap-3 text-sm text-neutral-300">
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Days</dt>
-                  <dd>{row.days}</dd>
+                  <dd className="text-right">{row.days}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Times</dt>
-                  <dd>{row.times}</dd>
+                  <dd className="text-right">{row.times}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Ages</dt>
-                  <dd>{row.ages}</dd>
+                  <dd className="text-right">{row.ages}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Gender</dt>
+                  <dd className="text-right">{row.gender}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Openings</dt>
-                  <dd>{row.openings}</dd>
+                  <dd className="text-right">{row.openings}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Session</dt>
-                  <dd>{row.session}</dd>
+                  <dd className="text-right">{row.session}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Starts</dt>
+                  <dd className="text-right">{row.starts}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Ends</dt>
+                  <dd className="text-right">{row.ends}</dd>
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-neutral-100">Tuition</dt>
-                  <dd>{row.tuition}</dd>
-                  <div className="flex justify-between-gap-4">
-                    <dt className="font-medium text-neutral 100">Fees</dt>
-                    <dd>{row.fees}</dd>
-                    </div>
+                  <dd className="text-right">{row.tuition}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="font-medium text-neutral-100">Performance Fee</dt>
+                  <dd className="text-right">{row.fees}</dd>
                 </div>
               </dl>
               <div className="mt-4 border-t border-neutral-800 pt-3 text-sm text-neutral-400">
