@@ -119,7 +119,7 @@ function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://app.jackrabbitclass.com/regv2.asp?id=548716"
+            href="https://app.jackrabbitclass.com/regv2.asp?id=519476"
             rel="noopener noreferrer"
             className="rounded-2xl px-4 py-2 text-sm font-semibold text-black"
             style={{ backgroundColor: brand.yellow }}
@@ -127,11 +127,12 @@ function Header() {
             Register
           </a>
           <a
-            href="https://app2.jackrabbitclass.com/portal/ppLogin.asp?id=548716"
+            href="https://app.jackrabbitclass.com/jr3.0/ParentPortal/Login?orgID=519476"
             rel="noopener noreferrer"
             className="rounded-2xl px-4 py-2 text-sm font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900"
+            target="_blank"
           >
-            Login
+            Parent Login
           </a>
         </div>
       </div>
@@ -152,8 +153,15 @@ function Header() {
             <NavLink to="/contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Contact</NavLink>
           </div>
           <div className="flex gap-2 pt-2">
-            <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-base font-semibold text-black" style={{ backgroundColor: brand.yellow }}>Register</a>
-            <a href="https://app2.jackrabbitclass.com/portal/ppLogin.asp?id=548716" className="flex-1 rounded-xl px-4 py-2 text-base font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900">Login</a>
+            <a href="https://app.jackrabbitclass.com/regv2.asp?id=519476" className="flex-1 rounded-xl px-4 py-2 text-base font-semibold text-black" style={{ backgroundColor: brand.yellow }}>Register</a>
+            <a
+              href="https://app.jackrabbitclass.com/jr3.0/ParentPortal/Login?orgID=519476"
+              className="flex-1 rounded-xl px-4 py-2 text-base font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Parent Login
+            </a>
           </div>
         </div>
       </motion.nav>
@@ -316,7 +324,7 @@ function Home() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Cta href="https://app.jackrabbitclass.com/regv2.asp?id=548716">Register Now</Cta>
+            <Cta href="https://app.jackrabbitclass.com/regv2.asp?id=519476">Register Now</Cta>
             <motion.div whileHover={{ y: -2 }}>
               <Link
                 to="/classes"
@@ -325,6 +333,17 @@ function Home() {
               >
                 Explore Classes
               </Link>
+            </motion.div>
+            <motion.div whileHover={{ y: -2 }}>
+              <a
+                href="https://app.jackrabbitclass.com/jr3.0/ParentPortal/Login?orgID=519476"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-xl px-6 font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900/50"
+                style={{ borderColor: "#262626" }}
+              >
+                Parent Login
+              </a>
             </motion.div>
           </div>
         <p className="mt-6 text-base text-neutral-300">
@@ -480,7 +499,7 @@ function Classes() {
     <Shell>
       <div className="flex items-end justify-between gap-6 mb-8">
         <h2 className="text-3xl font-bold tracking-tight">Classes</h2>
-        <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-base underline hover:text-neutral-200">See schedule</a>
+        <a href="https://app.jackrabbitclass.com/regv2.asp?id=519476" className="text-base underline hover:text-neutral-200">See schedule</a>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((c) => (
@@ -493,7 +512,7 @@ function Classes() {
             <h3 className="text-lg font-semibold">{c.title}</h3>
             <p className="mt-2 text-base text-neutral-200">{c.desc}</p>
             <div className="mt-4">
-              <a href="https://app.jackrabbitclass.com/regv2.asp?id=548716" className="text-base font-medium hover:opacity-90"
+              <a href="https://app.jackrabbitclass.com/regv2.asp?id=519476" className="text-base font-medium hover:opacity-90"
                  style={{ color: brand.yellow }}
               >
                 View details & register →
@@ -678,7 +697,7 @@ function Camps() {
         </p>
       </div>
       <div className="mt-8">
-        <Cta href="https://app.jackrabbitclass.com/regv2.asp?id=548716">Register for Camps</Cta>
+        <Cta href="https://app.jackrabbitclass.com/regv2.asp?id=519476">Register for Camps</Cta>
       </div>
     </Shell>
   );
@@ -696,7 +715,20 @@ function Calendar() {
           </a>
         </div>
         <div className="rounded-2xl border bg-neutral-950 p-6" style={{ borderColor: `#262626` }}>
-          <p className="text-neutral-300 text-base">Embed your Google/Apple calendar here or list key dates as cards.</p>
+          <div className="mb-4">
+            <h3 className="text-xl font-semibold text-neutral-100">Upcoming Events & Closures</h3>
+            <p className="mt-2 text-base text-neutral-300">
+              Stay up to date with key dates, studio closures, performances, and special workshops. Click any event for details.
+            </p>
+          </div>
+          <div className="rounded-xl border border-neutral-800/80 bg-black/40 overflow-hidden shadow-inner">
+            <iframe
+              title="Acting Up Carolina Event Calendar"
+              src="https://app.jackrabbitclass.com/eventcalendar.asp?orgid=519476"
+              className="h-[720px] w-full"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </Shell>
