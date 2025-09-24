@@ -1,0 +1,5 @@
+# Keep gallery assets out of Git history
+*
+
+!.gitignore
+!README.md

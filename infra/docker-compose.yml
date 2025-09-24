@@ -8,6 +8,9 @@ services:
     # no host ports — NPM will handle 80/443 on the host
     expose:
       - "8080"
+    volumes:
+      # Mount photo gallery assets from the host (read-only) into the container
+      - ${GALLERY_PATH:-../gallery}:/usr/share/nginx/html/shows:ro
     networks:
       - proxy
     # if you use private GHCR images, make sure Portainer has a "ghcr.io" registry credential

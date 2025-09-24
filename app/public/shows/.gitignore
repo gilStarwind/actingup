@@ -1,0 +1,6 @@
+# Ignore all gallery assets by default
+*
+
+# Allow docs and directory placeholders
+!.gitignore
+!README.md

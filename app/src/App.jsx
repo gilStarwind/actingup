@@ -20,6 +20,22 @@ const publicAsset = (path) => {
   return `${publicBase}${normalized}`;
 };
 
+const rawGalleryBase = (import.meta.env && import.meta.env.VITE_GALLERY_BASE_URL) || "/shows";
+const galleryBase = (() => {
+  if (/^https?:\/\//i.test(rawGalleryBase)) {
+    return rawGalleryBase.replace(/\/$/, "");
+  }
+  const normalized = rawGalleryBase.startsWith("/") ? rawGalleryBase : `/${rawGalleryBase}`;
+  return `${publicBase}${normalized}`.replace(/\/$/, "");
+})();
+
+const galleryAsset = (path) => {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${galleryBase}${normalized}`;
+};
+
 function Header() {
   const prefersReducedMotion = useReducedMotion();
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -707,15 +723,15 @@ function Gallery() {
     let cancelled = false;
     async function loadIndex() {
       try {
-        const res = await fetch(publicAsset("/shows/index.json"), { cache: "no-cache" });
+        const res = await fetch(galleryAsset("/index.json"), { cache: "no-cache" });
         if (res.ok) {
           const data = await res.json();
           if (!cancelled) setShows(Array.isArray(data) ? data : []);
         } else if (!cancelled) {
-          setShows((prev) => (prev.length ? prev : ["nemo"]));
+          setShows([]);
         }
       } catch (err) {
-        if (!cancelled) setShows((prev) => (prev.length ? prev : ["nemo"]));
+        if (!cancelled) setShows([]);
       }
     }
     loadIndex();
@@ -725,8 +741,8 @@ function Gallery() {
   }, []);
 
   const activeShow = showParam || (shows.length ? shows[0] : null);
-  const photosPath = activeShow ? `/shows/${activeShow}/photos.json` : null;
-  const resolvedPhotosPath = photosPath ? publicAsset(photosPath) : "";
+  const photosPath = activeShow ? `/${activeShow}/photos.json` : null;
+  const resolvedPhotosPath = photosPath ? galleryAsset(photosPath) : "";
 
   useEffect(() => {
     if (!resolvedPhotosPath) return;
@@ -783,10 +799,10 @@ function Gallery() {
 
   const activeLabel = activeShow ? labelFor(activeShow) : "Gallery";
   const featuredPhoto = images[0] || null;
-  const featuredSrc = featuredPhoto ? publicAsset(featuredPhoto.src || "") : "";
+  const featuredSrc = featuredPhoto ? galleryAsset(featuredPhoto.src || "") : "";
   const restPhotos = images.slice(1);
   const lightboxPhoto = lightboxIndex !== null ? images[lightboxIndex] : null;
-  const lightboxSrc = lightboxPhoto ? publicAsset(lightboxPhoto.src || "") : "";
+  const lightboxSrc = lightboxPhoto ? galleryAsset(lightboxPhoto.src || "") : "";
 
   return (
     <Shell>
@@ -836,7 +852,7 @@ function Gallery() {
           ))}
           {!shows.length && (
             <span className="rounded-full border border-dashed border-neutral-700 px-4 py-2 text-base text-neutral-300">
-              No shows found. Add `/public/shows/index.json`.
+              No shows found. Add `shows/index.json` to your gallery folder.
             </span>
           )}
         </div>
@@ -892,7 +908,7 @@ function Gallery() {
                   {restPhotos.map((photo, index) => {
                     const photoIndex = index + 1;
                     const rawSrc = photo?.src || "";
-                    const resolvedSrc = publicAsset(rawSrc);
+                    const resolvedSrc = galleryAsset(rawSrc);
                     if (!resolvedSrc) return null;
                     return (
                       <motion.figure
