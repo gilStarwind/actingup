@@ -30,8 +30,8 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
-          context: .          # <— location of your repo root folder
-          file: ./app/Dockerfile         # <— Dockerfile location
+          context: ./app
+          file: ./app/src/public/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.IMAGE }}
