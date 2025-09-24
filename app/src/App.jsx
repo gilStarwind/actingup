@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
 import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion, useMotionTemplate } from "framer-motion";
+import classScheduleFallback from "./data/classScheduleFallback.json";
 
 // Brand helpers
 const brand = {
@@ -264,120 +265,7 @@ const INSTRUCTORS = [
   },
 ];
 
-const CLASS_SCHEDULE = [
-  {
-    status: 'Open',
-    title: 'Broadway Babies (Pre-school, ages 4-6)',
-    description:
-      "This high-energy class introduces your budding star to the magical world of acting, singing, and dancing! Designed to build confidence, spark creativity, and encourage self-expression, students will explore dramatic play, storytelling, theatre games, and fun musical routines. Along the way, they'll grow social skills and imagination in a playful, supportive environment!",
-    days: 'Mon',
-    times: '3:30pm-4:15pm',
-    gender: 'All',
-    ages: '4 yrs - 6 yrs',
-    openings: '6',
-    starts: '08/18/2025',
-    ends: '05/11/2026',
-    session: '2025-26 Classes',
-    tuition: '$80.00',
-    fees: '$0.00'
-  },
-  {
-    status: 'Open',
-    title: 'Musical Theatre I, Performance (Alice In Wonderland)',
-    description:
-      'This class teaches the fundamentals of acting, singing, and musical theatre movement. These students will gain confidence and improve their performance skills, creativity, and teamwork as we prepare for the musical Alice in Wonderland Kids, presented in the spring of 2026! (date TBD) NOTE: In addition to the monthly class tuition, there is a one-time performance fee of $125 due by the end of January 2026. Some Saturday rehearsals will be added at the beginning of the year, once we see the need for extra rehearsal time (no extra cost). We will make every effort to work around schedules, HOWEVER, anyone in this class must make this show a priority. This is a yearlong commitment (mid-August 2025-May 2026).',
-    days: 'Tue',
-    times: '4:30pm-5:45pm',
-    gender: 'All',
-    ages: '6 yrs - 12 yrs',
-    openings: '6',
-    starts: '08/19/2025',
-    ends: '05/12/2026',
-    session: '2025-26 Classes',
-    tuition: '$90.00',
-    fees: '$125.00'
-  },
-  {
-    status: 'Open',
-    title: 'Show Choir',
-    description:
-      'Do you love to sing, dance, and perform? Then, Show Choir is the place for you! In this exciting class, students will learn fun songs in a variety of styles, move and groove with beginner-friendly choreography, build confidence on stage, practice solo and group singing, and work together as a team to put on high-energy performances! No experience needed, just bring your energy and your smile!',
-    days: 'Mon',
-    times: '5:45pm-6:45pm',
-    gender: 'All',
-    ages: '7 yrs - 11 yrs',
-    openings: '5',
-    starts: '08/18/2025',
-    ends: '05/18/2026',
-    session: '2025-26 Classes',
-    tuition: '$85.00',
-    fees: '$0.00'
-  },
-  {
-    status: 'Open',
-    title: 'Acting / Improv Fundamentals (ages 9-12)',
-    description:
-      'This class teaches acting skills that will build self-esteem and confidence. From the fundamentals of acting to the basic rules of improv such as thinking on the spot, focus, and how to command attention in a positive way. Students will work on concentration, focus, communication skills, eye contact, enunciation, projection, and memorization...all of which can be helpful on stage and in life!',
-    days: 'Mon',
-    times: '4:30pm-5:30pm',
-    gender: 'All',
-    ages: '9 yrs 6 mos - 12 yrs',
-    openings: '3',
-    starts: '08/18/2025',
-    ends: '05/11/2026',
-    session: '2025-26 Classes',
-    tuition: '$85.00',
-    fees: '$0.00'
-  },
-  {
-    status: 'Waitlist',
-    title: 'Musical Theatre II, Performance Class (Shrek)',
-    description:
-      'This is an intermediate class for those with some prior experience. This class will rehearse and present a musical, Shrek Jr in the spring, 2026 (exact dates TBD). Please call or email if you have any questions about enrollment, 704-313-8228, actingupcarolina@gmail.com. NOTE: In addition to the monthly class tuition, there is a one-time performance fee of $125 due the end of January 2026. Some Saturday rehearsals will be added at the beginning of 2026 once we see the need for extra rehearsal time (no extra cost). We will make every effort to work around schedules, HOWEVER, anyone in this class must make this show a priority. This is a yearlong commitment (mid-August 2025-May 2026).',
-    days: 'Thu',
-    times: '6:15pm-7:45pm',
-    gender: 'All',
-    ages: '10 yrs - 17 yrs',
-    openings: '0',
-    starts: '08/21/2025',
-    ends: '05/14/2026',
-    session: '2025-26 Classes',
-    tuition: '$95.00',
-    fees: '$125.00'
-  },
-  {
-    status: 'Waitlist',
-    title: 'Musical Theatre Foundations/Presentation Class',
-    description:
-      'This class is for students interested in and who want to learn and master the fundamentals of acting, singing, and musical theatre movement. We teach from many musical styles and work on ensemble and solo singing, acting, and choreography skills. Students will gain confidence as they develop performance skills, creativity, and teamwork. We highly recommend this class for those wanting to participate in musical theatre performances in the future. There will be recitals throughout the year to further hone performance skills in front of an audience.',
-    days: 'Tue',
-    times: '6:00pm-7:15pm',
-    gender: 'All',
-    ages: '11 yrs - 17 yrs',
-    openings: '0',
-    starts: '08/19/2025',
-    ends: '05/12/2026',
-    session: '2025-26 Classes',
-    tuition: '$90.00',
-    fees: '$0.00'
-  },
-  {
-    status: 'Waitlist',
-    title: 'Teen Acting/Improv',
-    description:
-      "Learn the skills to become a well-rounded actor! This class covers everything from the fundamentals of acting to the basics of improv, including public speaking, thinking on your feet, staying focused, and positively commanding attention. Students will explore theatre terminology, character development, and core acting concepts through improvisation, voice and speech techniques, warmups, and theatre games. It's a fun, supportive environment designed to build confidence, creativity, and stage presence!",
-    days: 'Thu',
-    times: '5:00pm-6:00pm',
-    gender: 'All',
-    ages: '12 yrs 6 mos - 16 yrs',
-    openings: '0',
-    starts: '08/21/2025',
-    ends: '05/14/2026',
-    session: '2025-26 Classes',
-    tuition: '$85.00',
-    fees: '$0.00'
-  },
-];
+// Class schedule entries load from /class-schedule/index.csv (or index.json) at runtime (see Classes component).
 
 function Home() {
   const prefersReducedMotion = useReducedMotion();
@@ -501,6 +389,93 @@ function Classes() {
     { title: "Musical Theatre", desc: "Sing, dance, and act in a supportive ensemble." },
     { title: "Show Choir", desc: "Hone vocal technique and performance skills." },
   ];
+  const [schedule, setSchedule] = useState(
+    Array.isArray(classScheduleFallback) ? classScheduleFallback : []
+  );
+  const [scheduleLoading, setScheduleLoading] = useState(true);
+  const [scheduleError, setScheduleError] = useState(null);
+  const [usingFallbackSchedule, setUsingFallbackSchedule] = useState(true);
+  const scheduleCsvUrl = publicAsset("/class-schedule/index.csv");
+  const scheduleJsonUrl = publicAsset("/class-schedule/index.json");
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadSchedule() {
+      if (!cancelled) {
+        setScheduleLoading(true);
+        setScheduleError(null);
+      }
+      const fallbackData = Array.isArray(classScheduleFallback) ? classScheduleFallback : [];
+      const errorMessages = [];
+
+      const parseCsvText = (text) => {
+        const parsed = Papa.parse(text, {
+          header: true,
+          skipEmptyLines: true,
+          transformHeader: (header) => (header ?? "").trim(),
+          transform: (value) => (typeof value === "string" ? value.trim() : value),
+        });
+        const rows = Array.isArray(parsed.data)
+          ? parsed.data.filter((row) => row && Object.values(row).some((val) => (val ?? "").toString().trim()))
+          : [];
+        if (!rows.length) throw new Error("CSV contained no rows");
+        return { rows, errors: parsed.errors || [] };
+      };
+
+      try {
+        const res = await fetch(scheduleCsvUrl, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`CSV HTTP ${res.status}`);
+        const text = await res.text();
+        const { rows, errors } = parseCsvText(text);
+        if (!cancelled) {
+          setSchedule(rows);
+          setUsingFallbackSchedule(false);
+          if (errors.length) errorMessages.push(`CSV parsed with ${errors.length} warning(s)`);
+          setScheduleLoading(false);
+          if (!errors.length) setScheduleError(null);
+          else setScheduleError(errorMessages.join(" • "));
+        }
+        return;
+      } catch (err) {
+        if (!cancelled) errorMessages.push(err?.message || "Unable to load CSV schedule");
+      }
+
+      try {
+        const res = await fetch(scheduleJsonUrl, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`JSON HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("Unexpected JSON schedule format");
+        if (!cancelled) {
+          setSchedule(data);
+          setUsingFallbackSchedule(false);
+          setScheduleLoading(false);
+          setScheduleError(null);
+        }
+        return;
+      } catch (err) {
+        if (!cancelled) errorMessages.push(err?.message || "Unable to load JSON schedule");
+      }
+
+      if (!cancelled) {
+        setSchedule(fallbackData);
+        setUsingFallbackSchedule(true);
+        if (errorMessages.length) setScheduleError(errorMessages.join(" • "));
+        setScheduleLoading(false);
+      }
+    }
+
+    loadSchedule();
+    return () => {
+      cancelled = true;
+    };
+  }, [scheduleCsvUrl, scheduleJsonUrl]);
+
+  useEffect(() => {
+    if (scheduleError) {
+      console.warn("[Classes] schedule load warning:", scheduleError);
+    }
+  }, [scheduleError]);
+
   return (
     <Shell>
       <div className="flex items-end justify-between gap-6 mb-8">
@@ -532,6 +507,15 @@ function Classes() {
         <p className="mt-2 text-base text-neutral-300 max-w-3xl">
           Explore our current offerings, including meeting times, ages, and availability. Use the register link to secure your spot or join the waitlist when a class is full.
         </p>
+        {scheduleLoading && (
+          <div className="mt-4 text-sm text-neutral-300">Loading the latest schedule…</div>
+        )}
+        {!scheduleLoading && !schedule.length && (
+          <div className="mt-4 rounded-xl border border-neutral-800/60 bg-neutral-950/60 px-4 py-3 text-sm text-neutral-200">
+            Schedule coming soon. Check back shortly or contact us for details.
+          </div>
+        )}
+        {/* schedule errors are logged to the console to avoid confusing site visitors */}
         <div className="mt-6 hidden md:block">
           <table className="min-w-full table-fixed divide-y divide-neutral-800 overflow-hidden rounded-2xl border border-neutral-800/80 bg-black/40 text-base">
             <thead className="bg-neutral-950/90 text-sm uppercase tracking-wide text-neutral-300">
@@ -544,7 +528,7 @@ function Classes() {
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-900">
-              {CLASS_SCHEDULE.map((row) => (
+              {schedule.map((row) => (
                 <tr key={row.title} className="align-top">
                   <td className="px-4 py-4">
                     <div className="font-semibold text-neutral-100">{row.title}</div>
@@ -589,7 +573,7 @@ function Classes() {
           </table>
         </div>
         <div className="mt-6 space-y-4 md:hidden">
-          {CLASS_SCHEDULE.map((row) => (
+          {schedule.map((row) => (
             <article
               key={`${row.title}-mobile`}
               className="rounded-2xl border border-neutral-800/80 bg-neutral-950/70 p-4 text-base text-neutral-200 shadow-inner"
@@ -1101,6 +1085,127 @@ function Contact() {
   );
 }
 
+function ScheduleHelper() {
+  const [parsedRows, setParsedRows] = useState([]);
+  const [helperMessage, setHelperMessage] = useState(null);
+  const [fileName, setFileName] = useState("");
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    setHelperMessage("Parsing CSV…");
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: (header) => (header ?? "").trim(),
+      transform: (value) => (typeof value === "string" ? value.trim() : value),
+      complete: (results) => {
+        const rows = Array.isArray(results.data)
+          ? results.data.filter((row) => row && Object.values(row).some((val) => (val ?? "").toString().trim()))
+          : [];
+        setParsedRows(rows);
+        if (results.errors?.length) {
+          setHelperMessage(`Parsed with ${results.errors.length} warning(s). Review the preview below.`);
+        } else {
+          setHelperMessage(`Loaded ${rows.length} row(s). Preview below and download JSON if needed.`);
+        }
+      },
+      error: (err) => {
+        setParsedRows([]);
+        setHelperMessage(err?.message || "Unable to parse CSV");
+      },
+    });
+  };
+
+  const downloadJson = () => {
+    if (!parsedRows.length) return;
+    const blob = new Blob([JSON.stringify(parsedRows, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "index.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <Shell>
+      <h2 className="text-3xl font-bold tracking-tight">Class Schedule Helper</h2>
+      <p className="mt-2 max-w-3xl text-base text-neutral-300">
+        Use this tool to double-check your `index.csv` before uploading it to the server. Upload a CSV exported from Excel/Sheets, preview the parsed rows, and optionally download a JSON version for debugging.
+      </p>
+
+      <div className="mt-6 space-y-4 rounded-2xl border border-neutral-800/80 bg-neutral-950/70 p-6">
+        <div>
+          <label htmlFor="schedule-csv" className="block text-sm font-semibold text-neutral-200">
+            Upload schedule CSV
+          </label>
+          <input
+            id="schedule-csv"
+            type="file"
+            accept=".csv,text/csv"
+            onChange={handleFileChange}
+            className="mt-2 w-full rounded-xl border border-neutral-800 bg-neutral-900/60 px-4 py-3 text-sm text-neutral-200"
+          />
+          <p className="mt-2 text-sm text-neutral-400">
+            Required headers: <code>status,title,description,days,times,gender,ages,openings,starts,ends,session,tuition,fees</code>
+          </p>
+        </div>
+        {fileName && (
+          <div className="rounded-xl border border-neutral-800/80 bg-black/40 px-4 py-3 text-sm text-neutral-200">
+            <strong>File:</strong> {fileName}{helperMessage ? ` — ${helperMessage}` : ""}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-3">
+          <a
+            href={publicAsset("/class-schedule/index.sample.csv")}
+            className="rounded-xl border border-neutral-700 px-4 py-2 text-sm text-neutral-200 hover:border-neutral-400"
+          >
+            Download sample CSV
+          </a>
+          <button
+            type="button"
+            onClick={downloadJson}
+            disabled={!parsedRows.length}
+            className="rounded-xl px-4 py-2 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:bg-neutral-800"
+            style={{ backgroundColor: parsedRows.length ? brand.yellow : "#27272a" }}
+          >
+            Download JSON preview
+          </button>
+        </div>
+      </div>
+
+      {parsedRows.length > 0 && (
+        <div className="mt-6 overflow-hidden rounded-2xl border border-neutral-800/80">
+          <table className="min-w-full table-fixed divide-y divide-neutral-800 bg-black/40 text-sm text-neutral-200">
+            <thead className="bg-neutral-950/80 text-xs uppercase tracking-wide text-neutral-400">
+              <tr>
+                {Object.keys(parsedRows[0]).map((key) => (
+                  <th key={key} className="px-3 py-3 text-left">
+                    {key}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-900">
+              {parsedRows.map((row, idx) => (
+                <tr key={`${row.title || "row"}-${idx}`}>
+                  {Object.keys(parsedRows[0]).map((key) => (
+                    <td key={`${key}-${idx}`} className="px-3 py-3 align-top text-neutral-200">
+                      {row[key] || ""}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Shell>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -1113,6 +1218,7 @@ export default function App() {
         <Route path="/gallery/:show" element={<Gallery />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/tools/schedule-helper" element={<ScheduleHelper />} />
         <Route
           path="*"
           element={

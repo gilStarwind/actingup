@@ -1,0 +1,7 @@
+# Keep editable schedule data out of Git
+*
+
+!.gitignore
+!README.md
+!index.sample.json
+!index.sample.csv

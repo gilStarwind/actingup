@@ -46,3 +46,11 @@ Notes:
 3. In `infra/`, create an `.env` file with `GALLERY_PATH=/opt/actingup/gallery` so Docker mounts the right folder.
 4. Run `docker compose up -d` from `infra/` to restart the site. The container will serve images directly from the host folder without rebuilding the image.
 5. Any time you add or remove photos, update the manifests and refresh the browser—no redeploy needed.
+
+## Class schedule updates
+
+- The Classes page now prefers a CSV at `class-schedule/index.csv`. During local development, point Excel/Sheets exports to `app/public/class-schedule/index.csv`; Git ignores that folder so you can iterate safely. Use `index.sample.csv` in the same directory as your template.
+- Expected headers (all lowercase): `status,title,description,days,times,gender,ages,openings,starts,ends,session,tuition,fees`. Additional columns are ignored.
+- The app still accepts `class-schedule/index.json` as a backup format. If neither CSV nor JSON are present, it falls back to the bundled sample data so the page always renders.
+- On the Pi, populate the top-level `class-schedule/` directory (mounted to `/usr/share/nginx/html/class-schedule` by docker-compose). Drop your `index.csv` there without rebuilding the container. Override the location with `CLASS_SCHEDULE_PATH=/absolute/path/to/schedule` in `infra/.env` if needed.
+- Bonus helper: visit `/tools/schedule-helper` in the running site to upload a CSV, preview the parsed rows, and download a JSON copy for spot checks.

@@ -11,6 +11,8 @@ services:
     volumes:
       # Mount photo gallery assets from the host (read-only) into the container
       - ${GALLERY_PATH:-../gallery}:/usr/share/nginx/html/shows:ro
+      # Mount class schedule JSON so admins can edit without rebuilding
+      - ${CLASS_SCHEDULE_PATH:-../class-schedule}:/usr/share/nginx/html/class-schedule:ro
     networks:
       - proxy
     # if you use private GHCR images, make sure Portainer has a "ghcr.io" registry credential
