@@ -38,6 +38,17 @@ Notes:
 
 - Photo `src` values are resolved relative to the gallery root. Absolute URLs (e.g. pointing to an S3 bucket) are also supported.
 - Need to serve the gallery from a different origin? Set `VITE_GALLERY_BASE_URL` before building (for example `VITE_GALLERY_BASE_URL=https://photos.example.com`).
+- Want non-technical editors to manage the gallery? Mirror the sheet columns noted below in a Google Sheet, publish it as CSV, and set `VITE_GALLERY_SHEET_URL="https://docs.google.com/...&output=csv"`; the app groups rows by slug and falls back to the on-disk JSON manifests if the sheet is offline.
+- Gallery Sheet columns (case-insensitive, one row per photo): include `slug` (or `show`/`label` which will be slugified), `label`, `src`, optional `alt`/`caption`, and numeric `photo_order`/`show_order`. Rows missing a slug or src are skipped and any parse warnings appear in the gallery banner. For example:
+
+  ```csv
+  slug,label,src,alt,caption,show_order,photo_order
+  nemo,Finding Nemo Jr.,https://example.com/nemo/cast.jpg,Cast photo,Opening night,1,1
+  nemo,Finding Nemo Jr.,https://example.com/nemo/duo.jpg,Dory and Marlin,Underwater duet,1,2
+  matilda,Matilda Jr.,https://example.com/matilda/group.jpg,Ensemble,Finale pose,2,1
+  ```
+
+- Hosting photos on Google Drive: upload images into a folder, change the folder sharing to “Anyone with the link,” open each image and choose “Open in new tab” to capture the direct `https://lh3.googleusercontent.com/...` URL, and paste that into the sheet’s `src` column. If the share dialog only gives you a file ID, you can also use `https://drive.google.com/uc?export=view&id=FILE_ID` (the file must still be shared publicly) so the image loads without extra redirects.
 
 ### Deploying on the Raspberry Pi
 

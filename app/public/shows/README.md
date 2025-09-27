@@ -19,3 +19,5 @@ shows/
 All `src` values are resolved relative to this `shows/` folder. You can use absolute URLs if you prefer to host images elsewhere.
 
 When running in Docker, the `shows/` directory is mounted into the Nginx container at `/usr/share/nginx/html/shows`.
+
+Prefer to drive the gallery from a Google Sheet? Publish the sheet as CSV and set `VITE_GALLERY_SHEET_URL` in your Vite `.env`. The app will read rows from the sheet first and only touch this folder if the sheet is unavailable.

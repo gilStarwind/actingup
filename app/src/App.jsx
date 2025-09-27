@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
 import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion, useMotionTemplate } from "framer-motion";
 import classScheduleFallback from "./data/classScheduleFallback.json";
+import Papa from "papaparse";
 
 // Brand helpers
 const brand = {
@@ -35,6 +36,16 @@ const galleryAsset = (path) => {
   if (/^https?:\/\//i.test(path)) return path;
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return `${galleryBase}${normalized}`;
+};
+
+const slugify = (value) => {
+  if (!value) return "";
+  return value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 };
 
 function Header() {
@@ -750,8 +761,24 @@ function Gallery() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const gallerySheetUrl = (() => {
+    const raw = import.meta.env?.VITE_GALLERY_SHEET_URL;
+    if (typeof raw === "string") {
+      const trimmed = raw.trim();
+      if (trimmed) return trimmed;
+    }
+    return null;
+  })();
+  const [sheetState, setSheetState] = useState(() => ({
+    status: gallerySheetUrl ? "loading" : "disabled",
+    shows: [],
+    labels: {},
+    entries: {},
+    message: null,
+  }));
 
   const labelFor = (slug) => {
+    if (sheetState.labels?.[slug]) return sheetState.labels[slug];
     const map = {
       "nemo": "Finding Nemo Jr.",
       "matilda": "Matilda Jr.",
@@ -762,6 +789,138 @@ function Gallery() {
   };
 
   useEffect(() => {
+    if (!gallerySheetUrl) {
+      setSheetState((prev) =>
+        prev.status === "disabled"
+          ? prev
+          : { status: "disabled", shows: [], labels: {}, entries: {}, message: null }
+      );
+      return;
+    }
+    let cancelled = false;
+    const parseGalleryRows = (rows) => {
+      const metaMap = new Map();
+      const warnings = [];
+      rows.forEach((rawRow, index) => {
+        if (!rawRow || typeof rawRow !== "object") return;
+        const showLabelRaw = rawRow.label || rawRow.show || rawRow.production || rawRow.title || "";
+        const slugSource = rawRow.slug || showLabelRaw || rawRow.folder || rawRow.album || "";
+        const slug = slugify(slugSource);
+        const srcCandidate = rawRow.src || rawRow.image || rawRow.photo || rawRow.url || "";
+        if (!slug) {
+          warnings.push(`Row ${index + 2}: Missing slug/show identifier.`);
+          return;
+        }
+        if (!srcCandidate) {
+          warnings.push(`Row ${index + 2}: Missing photo source for ${slug}.`);
+          return;
+        }
+        const cleanSrc = srcCandidate.toString().trim();
+        const cleanLabel = showLabelRaw ? showLabelRaw.toString().trim() : slug;
+        const altText = (rawRow.alt || rawRow.caption || cleanLabel || slug).toString().trim();
+        const captionText = (rawRow.caption || "").toString().trim();
+        const showOrderVal = Number(rawRow.show_order ?? rawRow.collection_order ?? rawRow.order_show ?? "");
+        const photoOrderVal = Number(rawRow.photo_order ?? rawRow.order ?? rawRow.order_photo ?? "");
+        const meta = metaMap.get(slug) || {
+          label: cleanLabel,
+          showOrder: Number.isFinite(showOrderVal) ? showOrderVal : null,
+          photos: [],
+        };
+        if (cleanLabel && cleanLabel !== meta.label) meta.label = cleanLabel;
+        if (Number.isFinite(showOrderVal)) {
+          if (!Number.isFinite(meta.showOrder) || showOrderVal < meta.showOrder) {
+            meta.showOrder = showOrderVal;
+          }
+        }
+        meta.photos.push({
+          src: cleanSrc,
+          alt: altText,
+          caption: captionText,
+          order: Number.isFinite(photoOrderVal) ? photoOrderVal : meta.photos.length,
+        });
+        metaMap.set(slug, meta);
+      });
+
+      const showsList = Array.from(metaMap.entries())
+        .sort(([, a], [, b]) => {
+          const aOrder = Number.isFinite(a.showOrder) ? a.showOrder : Number.POSITIVE_INFINITY;
+          const bOrder = Number.isFinite(b.showOrder) ? b.showOrder : Number.POSITIVE_INFINITY;
+          if (aOrder !== bOrder) return aOrder - bOrder;
+          return a.label.localeCompare(b.label);
+        })
+        .map(([slug]) => slug);
+
+      const labelsRecord = {};
+      const entriesRecord = {};
+      metaMap.forEach((meta, slug) => {
+        labelsRecord[slug] = meta.label || slug;
+        entriesRecord[slug] = meta.photos
+          .slice()
+          .sort((a, b) => a.order - b.order)
+          .map(({ order, ...photo }) => photo);
+      });
+
+      return {
+        shows: showsList,
+        labels: labelsRecord,
+        entries: entriesRecord,
+        warnings,
+      };
+    };
+
+    async function loadSheet() {
+      setSheetState((prev) => ({ ...prev, status: "loading", message: null }));
+      try {
+        const res = await fetch(gallerySheetUrl, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`Sheet HTTP ${res.status}`);
+        const text = await res.text();
+        const parsed = Papa.parse(text, {
+          header: true,
+          skipEmptyLines: true,
+          transformHeader: (header) => (header ?? "").toString().trim().toLowerCase(),
+          transform: (value) => (typeof value === "string" ? value.trim() : value),
+        });
+        const rows = Array.isArray(parsed.data)
+          ? parsed.data.filter((row) => row && Object.values(row).some((val) => (val ?? "").toString().trim()))
+          : [];
+        if (!rows.length) throw new Error("Sheet contained no usable rows");
+        const result = parseGalleryRows(rows);
+        if (!result || !result.shows.length) throw new Error("Sheet contained no gallery items");
+        const messageParts = [];
+        if (parsed.errors?.length) messageParts.push(`${parsed.errors.length} parsing warning(s)`);
+        if (result.warnings.length) messageParts.push(result.warnings.join(" • "));
+        if (!cancelled) {
+          setSheetState({
+            status: "ready",
+            shows: result.shows,
+            labels: result.labels,
+            entries: result.entries,
+            message: messageParts.length ? messageParts.join(" • ") : null,
+          });
+          setShows(result.shows);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setSheetState({
+            status: "error",
+            shows: [],
+            labels: {},
+            entries: {},
+            message: err?.message || "Unable to load gallery sheet",
+          });
+        }
+      }
+    }
+
+    loadSheet();
+    return () => {
+      cancelled = true;
+    };
+  }, [gallerySheetUrl]);
+
+  useEffect(() => {
+    if (sheetState.status === "ready") return;
+    if (sheetState.status === "loading") return;
     let cancelled = false;
     async function loadIndex() {
       try {
@@ -780,14 +939,28 @@ function Gallery() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [sheetState.status]);
 
   const activeShow = showParam || (shows.length ? shows[0] : null);
   const photosPath = activeShow ? `/${activeShow}/photos.json` : null;
   const resolvedPhotosPath = photosPath ? galleryAsset(photosPath) : "";
 
   useEffect(() => {
-    if (!resolvedPhotosPath) return;
+    if (sheetState.status === "loading") {
+      setLoading(true);
+      return;
+    }
+    if (sheetState.status === "ready") {
+      setImages(sheetState.entries[activeShow] || []);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+    if (!resolvedPhotosPath) {
+      setImages([]);
+      setLoading(false);
+      return;
+    }
     let cancelled = false;
     async function loadPhotos() {
       setLoading(true);
@@ -807,7 +980,7 @@ function Gallery() {
     return () => {
       cancelled = true;
     };
-  }, [resolvedPhotosPath]);
+  }, [resolvedPhotosPath, sheetState.status, sheetState.entries, activeShow]);
 
   const closeLightbox = React.useCallback(() => setLightboxIndex(null), []);
   const showNext = React.useCallback(() => {
@@ -861,6 +1034,17 @@ function Gallery() {
           </span>
         )}
       </div>
+
+      {gallerySheetUrl && sheetState.status === "ready" && (
+        <div className="mt-4 rounded-lg border border-violet-500/30 bg-violet-500/10 px-4 py-3 text-sm text-violet-100">
+          Gallery data is syncing from the connected Google Sheet. {sheetState.message ? `(${sheetState.message})` : "Update the sheet to refresh this page."}
+        </div>
+      )}
+      {gallerySheetUrl && sheetState.status === "error" && sheetState.message && (
+        <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+          Google Sheet unavailable ({sheetState.message}). Showing the last uploaded gallery files instead.
+        </div>
+      )}
 
       <div className="mt-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/50 p-4">
         <div className="flex items-center justify-between gap-4">
