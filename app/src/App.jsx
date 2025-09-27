@@ -293,7 +293,7 @@ function Home() {
           transition={{ duration: 0.6 }}
         >
           <motion.p
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm mb-4"
+            className="mx-auto mb-4 w-full max-w-xl rounded-full border px-4 py-2 text-center text-sm leading-snug md:inline-flex md:w-auto md:items-center md:justify-center md:gap-2"
             style={{
               borderColor: `${brand.purple}55`,
               backgroundColor: `${brand.purple}22`,
@@ -414,8 +414,16 @@ function Classes() {
   const [scheduleLoading, setScheduleLoading] = useState(true);
   const [scheduleError, setScheduleError] = useState(null);
   const [usingFallbackSchedule, setUsingFallbackSchedule] = useState(true);
-  const scheduleCsvUrl = publicAsset("/class-schedule/index.csv");
-  const scheduleJsonUrl = publicAsset("/class-schedule/index.json");
+  const scheduleCsvUrl = (() => {
+    const raw = import.meta.env?.VITE_SCHEDULE_CSV_URL;
+    if (typeof raw === "string" && raw.trim()) return raw.trim();
+    return publicAsset("/class-schedule/index.csv");
+  })();
+  const scheduleJsonUrl = (() => {
+    const raw = import.meta.env?.VITE_SCHEDULE_JSON_URL;
+    if (typeof raw === "string" && raw.trim()) return raw.trim();
+    return publicAsset("/class-schedule/index.json");
+  })();
 
   useEffect(() => {
     let cancelled = false;
