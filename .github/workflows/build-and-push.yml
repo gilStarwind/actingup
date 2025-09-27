@@ -37,6 +37,6 @@ jobs:
           tags: ${{ env.IMAGE }}
           provenance: false
           sbom: false
-          # If your build needs env vars, uncomment:
-          # build-args: |
-          #   VITE_API_URL=/ 
+          build-args: |
+            VITE_SCHEDULE_CSV_URL=${{ secrets.VITE_SCHEDULE_CSV_URL }}
+            VITE_GALLERY_SHEET_URL=${{ secrets.VITE_GALLERY_SHEET_URL }}
