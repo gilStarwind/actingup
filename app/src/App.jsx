@@ -124,6 +124,7 @@ function Header() {
           {navItem("Camps", "/camps")}
           {navItem("Calendar", "/calendar")}
           {navItem("Gallery", "/gallery")}
+          {navItem("Cast", "/cast")}
           {navItem("About", "/about")}
           {navItem("Contact", "/contact")}
         </nav>
@@ -160,6 +161,7 @@ function Header() {
             <NavLink to="/camps" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Camps</NavLink>
             <NavLink to="/calendar" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Calendar</NavLink>
             <NavLink to="/gallery" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Gallery</NavLink>
+            <NavLink to="/cast" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Cast</NavLink>
             <NavLink to="/about" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">About</NavLink>
             <NavLink to="/contact" onClick={() => setMenuOpen(false)} className="rounded-lg px-3 py-2 text-base bg-neutral-900/70 border border-neutral-800">Contact</NavLink>
           </div>
@@ -281,6 +283,40 @@ const INSTRUCTORS = [
     role: 'Dance & Choreography Instructor',
     img: 'https://le-cdn.hibuwebsites.com/52be499460c147619cde1f2f840c663e/dms3rep/multi/opt/HeadshotLiv-401h.jpg',
     bio: `Olivia recently moved to Lake Wylie from Cincinnati, Ohio. She has been teaching dance and choreographing for over 20 years. Olivia holds a BFA in Dance Performance from Oklahoma City University and is a proud member of Actors' Equity Association. Favorite performance credits include Peter Pan (with Cathy Rigby), Cats, West Side Story, and Hairspray. Her students have gone on to dance for the NBA, NFL, The Ohio State University Dance Team, Radio City Rockettes, and Broadway.`,
+  },
+];
+
+const CAST_RESOURCES = [
+  {
+    title: 'Spring Musical 2025 Resources',
+    description: 'Drop rehearsal tracks, choreography videos, costume guides, or a shared Google Drive folder here. Replace this description and link with show-specific info.',
+    href: 'https://drive.google.com/drive/folders/your-folder-id',
+    updated: 'Jan 15, 2025',
+  },
+  {
+    title: 'Parent Packet & Forms',
+    description: 'Upload permission slips, rehearsal schedules, and other handouts. Point to a Google Drive PDF or folder so families always have the latest version.',
+    href: 'https://drive.google.com/file/d/your-document-id/view?usp=sharing',
+    updated: 'Dec 01, 2024',
+  },
+];
+
+const CAST_LISTS = [
+  {
+    title: 'Spring Musical 2025 Cast List',
+    description: 'Replace this link with the official PDF or Google Doc share link once the cast list is announced.',
+    href: 'https://drive.google.com/file/d/your-cast-list-id/view?usp=sharing',
+    fileType: 'pdf',
+    updated: 'TBD',
+    notes: ['Use the Google Drive "preview" link so it opens quickly for families.'],
+  },
+  {
+    title: 'Fall Showcase Ensemble Assignments',
+    description: 'Use an image or Canva export if you want a graphic-focused announcement. Swap this placeholder link with your final artwork.',
+    href: 'https://drive.google.com/uc?export=view&id=your-image-id',
+    fileType: 'image',
+    updated: 'TBD',
+    notes: ['If you use Drive, convert the share link to use `uc?export=view&id=` so the image renders directly.'],
   },
 ];
 
@@ -1249,6 +1285,181 @@ function Gallery() {
   );
 }
 
+function Cast() {
+  const resources = CAST_RESOURCES;
+  const castLists = CAST_LISTS;
+
+  const fileKind = (item) => {
+    if (item?.fileType) return item.fileType.toLowerCase();
+    const url = item?.href || "";
+    if (/\.(png|jpe?g|gif|webp|avif)$/i.test(url)) return "image";
+    if (/\.pdf($|\?)/i.test(url)) return "pdf";
+    return "link";
+  };
+
+  return (
+    <Shell>
+      <div className="space-y-12">
+        <section className="space-y-4">
+          <h2 className="text-3xl font-bold tracking-tight">Cast Hub</h2>
+          <p className="max-w-3xl text-neutral-300">
+            Share rehearsal resources, announcements, and official cast lists with your actors and families. Update the
+            data arrays inside <code>App.jsx</code> so this page always reflects the latest shows.
+          </p>
+        </section>
+
+        <section>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-2xl font-semibold">Quick Resources</h3>
+              <p className="text-neutral-300">
+                Link out to Google Drive folders, rehearsal tracks, calendars, or any shared documents.
+              </p>
+            </div>
+            <span className="text-sm uppercase tracking-wide text-neutral-500">Edit `CAST_RESOURCES`</span>
+          </div>
+
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
+            {resources.length ? (
+              resources.map((resource) => (
+                <motion.article
+                  key={resource.title}
+                  whileHover={{ y: -3 }}
+                  className="flex h-full flex-col justify-between rounded-2xl border bg-neutral-950/70 p-6"
+                  style={{ borderColor: `${brand.purple}33` }}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h4 className="text-lg font-semibold text-neutral-100">{resource.title}</h4>
+                        {resource.updated && (
+                          <p className="text-sm text-neutral-400">Updated {resource.updated}</p>
+                        )}
+                      </div>
+                      <a
+                        href={resource.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white"
+                      >
+                        Open
+                      </a>
+                    </div>
+                    {resource.description && (
+                      <p className="text-base leading-relaxed text-neutral-300">{resource.description}</p>
+                    )}
+                    {Array.isArray(resource.highlights) && resource.highlights.length > 0 && (
+                      <ul className="space-y-2 text-sm text-neutral-300">
+                        {resource.highlights.map((item) => (
+                          <li key={item} className="flex items-start gap-2">
+                            <span className="mt-1 inline-flex h-1.5 w-1.5 rounded-full" style={{ backgroundColor: brand.yellow }} />
+                            <span className="flex-1">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </motion.article>
+              ))
+            ) : (
+              <div className="rounded-2xl border border-dashed border-neutral-700/70 bg-neutral-950/60 p-6 text-neutral-300">
+                No resources yet. Add entries to `CAST_RESOURCES` with `title`, `href`, and optional `description` fields.
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-2xl font-semibold">Cast Lists &amp; Announcements</h3>
+              <p className="text-neutral-300">
+                Drop PDF announcements or link to graphics so everyone can confirm their role assignments right away.
+              </p>
+            </div>
+            <span className="text-sm uppercase tracking-wide text-neutral-500">Edit `CAST_LISTS`</span>
+          </div>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {castLists.length ? (
+              castLists.map((list) => {
+                const kind = fileKind(list);
+                const isImage = kind === "image";
+                const isPdf = kind === "pdf";
+                return (
+                  <motion.article
+                    key={list.title}
+                    whileHover={{ y: -3 }}
+                    className="rounded-2xl border bg-neutral-950/70 p-6"
+                    style={{ borderColor: `${brand.yellow}33` }}
+                  >
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="text-lg font-semibold text-neutral-100">{list.title}</h4>
+                          {list.updated && <p className="text-sm text-neutral-400">Updated {list.updated}</p>}
+                        </div>
+                        <a
+                          href={list.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white"
+                        >
+                          View
+                          <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M12.293 3.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-8 8a1 1 0 01-.497.263l-5 1a1 1 0 01-1.18-1.18l1-5a1 1 0 01.263-.497l8-8zM5 13l-1 3 3-1 7.293-7.293-2-2L5 13z" />
+                          </svg>
+                        </a>
+                      </div>
+                      {list.description && (
+                        <p className="text-base leading-relaxed text-neutral-300">{list.description}</p>
+                      )}
+
+                      {isImage && (
+                        <div className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/60">
+                          <img src={list.href} alt={`${list.title} cast list`} className="w-full object-cover" />
+                        </div>
+                      )}
+
+                      {isPdf && (
+                        <div className="rounded-xl border border-dashed border-neutral-700/60 bg-neutral-900/60 px-4 py-6 text-sm text-neutral-300">
+                          PDF preview not shown here. The button above opens the document in a new tab. If you prefer an embed, swap
+                          the share link for a Google Drive preview link ending with <code>/preview</code>.
+                        </div>
+                      )}
+
+                      {!isImage && !isPdf && (
+                        <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 px-4 py-5 text-sm text-neutral-300">
+                          This entry links to an external resource. Families can tap “View” to open it.
+                        </div>
+                      )}
+
+                      {Array.isArray(list.notes) && list.notes.length > 0 && (
+                        <ul className="space-y-2 text-sm text-neutral-300">
+                          {list.notes.map((note) => (
+                            <li key={note} className="flex items-start gap-2">
+                              <span className="mt-1 inline-flex h-1.5 w-1.5 rounded-full" style={{ backgroundColor: brand.yellowDark }} />
+                              <span className="flex-1">{note}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </motion.article>
+                );
+              })
+            ) : (
+              <div className="rounded-2xl border border-dashed border-neutral-700/70 bg-neutral-950/60 p-6 text-neutral-300">
+                No cast lists yet. Add entries to `CAST_LISTS` with a `href` pointing to a Google Drive PDF, Doc, or image.
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+    </Shell>
+  );
+}
+
 function About() {
     console.log("About rendered", INSTRUCTORS.length);
   return (
@@ -1440,6 +1651,7 @@ export default function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery/:show" element={<Gallery />} />
+        <Route path="/cast" element={<Cast />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/tools/schedule-helper" element={<ScheduleHelper />} />
