@@ -1340,7 +1340,7 @@ function Cast() {
                         href={resource.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white"
+                        className="inline-flex w-full items-center justify-center rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white sm:w-auto"
                       >
                         Open
                       </a>
@@ -1403,7 +1403,7 @@ function Cast() {
                           href={list.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-neutral-700 px-3 py-1 text-sm font-semibold text-neutral-200 hover:border-neutral-500 hover:text-white sm:w-auto"
                         >
                           View
                           <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
