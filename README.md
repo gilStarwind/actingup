@@ -1,3 +1,7 @@
+> **Looking for a non-technical guide to update the website's class schedule or photo gallery?**
+>
+> See the [Content Management Guide](./docs/README.md) for simple, step-by-step instructions.
+
 # Acting Up Website (React)
 
 The Vite + React app lives inside the `app/` directory. Run all npm commands from there (or use the `--prefix app` flag) so npm can see the `package.json` file.
