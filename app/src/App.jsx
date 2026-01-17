@@ -383,7 +383,7 @@ function Home() {
             </motion.div>
             <motion.div whileHover={{ y: -2 }}>
               <a
-                href="https://app.jackrabbitclass.com/jr3.0/ParentPortal/Login?orgID=519476"
+                href="https://app.jackrabbitclass.com/jr4.0/ParentPortal/Login?orgID=519476"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-xl px-6 font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900/50"
