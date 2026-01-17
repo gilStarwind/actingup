@@ -139,7 +139,7 @@ function Header() {
             Register
           </a>
           <a
-            href="https://app.jackrabbitclass.com/jr3.0/ParentPortal/Login?orgID=519476"
+            href="https://app.jackrabbitclass.com/jr4.0/ParentPortal/Login?orgID=519476"
             rel="noopener noreferrer"
             className="rounded-2xl px-4 py-2 text-sm font-semibold border border-neutral-700 text-neutral-100 hover:bg-neutral-900"
             target="_blank"
