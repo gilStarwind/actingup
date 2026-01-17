@@ -1,7 +1,0 @@
-.git
-node_modules
-*.log
-dist
-build
-**/.DS_Store
-.github
