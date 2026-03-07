@@ -53,7 +53,7 @@ const ShowNavigation = ({ shows, activeLabel, labelFor }) => (
       ))}
       {!shows.length && (
         <span className="rounded-full border border-dashed border-neutral-700 px-4 py-2 text-base text-neutral-300">
-          No shows found. Add `shows/index.json` to your gallery folder.
+          No shows found.
         </span>
       )}
     </div>
@@ -236,11 +236,6 @@ export default function Gallery() {
     <Shell>
       <GalleryHeader imageCount={images.length} />
 
-      {sheetState.status === "ready" && (
-        <div className="mt-4 rounded-lg border border-violet-500/30 bg-violet-500/10 px-4 py-3 text-sm text-violet-100">
-          Gallery data is syncing from the connected Google Sheet. {sheetState.message ? `(${sheetState.message})` : "Update the sheet to refresh this page."}
-        </div>
-      )}
       {sheetState.status === "error" && sheetState.message && (
         <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
           Google Sheet unavailable ({sheetState.message}). Showing the last uploaded gallery files instead.
