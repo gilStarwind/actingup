@@ -42,29 +42,25 @@ actingup/
 │   │   │   └── Stripe.jsx      # Decorative top stripe
 │   │   ├── pages/
 │   │   │   ├── Home.jsx
-│   │   │   ├── Classes.jsx     # CSV-driven class listings
+│   │   │   ├── Classes.jsx     # Google Sheet-driven class listings
 │   │   │   ├── Camps.jsx
 │   │   │   ├── Calendar.jsx    # JackRabbit iframe embed + location
 │   │   │   ├── Gallery.jsx     # Photo gallery by show
 │   │   │   ├── Cast.jsx        # Cast Hub — resources & cast lists
 │   │   │   ├── About.jsx       # Instructor bios
 │   │   │   ├── Contact.jsx
-│   │   │   ├── ScheduleHelper.jsx  # Admin CSV preview/debug tool
+│   │   │   ├── ScheduleHelper.jsx  # Admin CSV preview/debug tool (not in nav)
 │   │   │   └── NotFound.jsx
 │   │   ├── hooks/
-│   │   │   ├── useClassSchedule.js  # Fetches CSV/JSON schedule with fallback
-│   │   │   ├── useGallery.js        # Fetches show photos (sheet or static JSON)
+│   │   │   ├── useClassSchedule.js  # Fetches schedule from Google Sheet CSV
+│   │   │   ├── useGallery.js        # Fetches gallery from Google Sheet
 │   │   │   └── useLightbox.js       # Lightbox state for gallery
 │   │   ├── data/
 │   │   │   ├── instructors.js           # Instructor name/role/bio/img
 │   │   │   ├── castResources.js         # CAST_RESOURCES + CAST_LISTS arrays
-│   │   │   └── classScheduleFallback.json  # Fallback schedule if fetch fails
+│   │   │   └── classScheduleFallback.json  # Last-resort fallback if sheet is unreachable
 │   │   └── utils/helpers.js    # brand colors, publicAsset, galleryAsset, slugify
 │   └── package.json
-├── class-schedule/             # Drop index.csv here for deployment (Docker mount)
-├── gallery/                    # Drop show photo folders here for deployment (Docker mount)
-├── tools/
-│   └── gen-gallery.mjs         # Generates index.json + photos.json for gallery folders
 └── CLAUDE.md
 ```
 
@@ -132,30 +128,25 @@ All Vite env vars must be prefixed `VITE_` to be exposed to the client.
 
 ### Class Schedule
 
-The schedule on `/classes` is loaded dynamically by `useClassSchedule`:
+The schedule on `/classes` is loaded dynamically by `useClassSchedule`. Set `VITE_SCHEDULE_CSV_URL` to a published Google Sheet CSV URL. The hook tries sources in order:
 
-1. Tries `VITE_SCHEDULE_CSV_URL` (or `/class-schedule/index.csv`)
-2. Falls back to `VITE_SCHEDULE_JSON_URL` (or `/class-schedule/index.json`)
-3. Falls back to `src/data/classScheduleFallback.json`
+1. `VITE_SCHEDULE_CSV_URL` (Google Sheet published as CSV)
+2. `VITE_SCHEDULE_JSON_URL` (if set)
+3. `src/data/classScheduleFallback.json` (last-resort hardcoded fallback)
 
-**To update the schedule**: Drop a new `index.csv` into `class-schedule/` on the server, or point `VITE_SCHEDULE_CSV_URL` to a published Google Sheet CSV.
+**To update the schedule**: Publish the Google Sheet as CSV and ensure `VITE_SCHEDULE_CSV_URL` is set in Vercel's environment variables. Changes to the sheet are reflected on the next page load.
 
-Required CSV headers: `status, title, description, days, times, gender, ages, openings, starts, ends, session, tuition, fees`
+Required CSV/sheet headers: `status, title, description, days, times, gender, ages, openings, starts, ends, session, tuition, fees`
 
-Use `/schedule-helper` in the browser to validate a CSV before uploading.
+Use `/schedule-helper` in the browser to paste or upload a CSV export and validate it before publishing.
 
 ### Gallery
 
-Photos are loaded by `useGallery`:
+Photos are loaded by `useGallery` from a Google Sheet. Set `VITE_GALLERY_SHEET_URL` to the published CSV URL of the sheet.
 
-1. Tries `VITE_GALLERY_SHEET_URL` (Google Sheet with columns: `label/show`, `slug`, `src/image`, `alt`, `caption`, `show_order`, `photo_order`)
-2. Falls back to `/shows/index.json` + per-show `/shows/<slug>/photos.json`
+Sheet columns: `label` (show name), `slug`, `src` (image URL), `alt`, `caption`, `show_order`, `photo_order`
 
-**To add a new show**: Create a folder in `gallery/` (on the server), drop photos in, then run:
-```bash
-node tools/gen-gallery.mjs path/to/gallery
-```
-This generates `index.json` and `photos.json` for each show folder.
+**To add a new show**: Add rows to the Google Sheet with the new show's slug and photo URLs. No deploy needed.
 
 ### Instructors
 
@@ -178,12 +169,9 @@ Edit `app/src/data/castResources.js`:
 
 ## Deployment Notes
 
-- The app is deployed on **Vercel** (see recent git commits).
-- A **Docker/Nginx** setup also exists for self-hosting (Raspberry Pi mentioned in `gallery/README.md`). It mounts:
-  - `class-schedule/` → `/usr/share/nginx/html/class-schedule`
-  - `gallery/` → `/usr/share/nginx/html/shows`
-- SSL certs live in Docker volumes — **never commit them to git**.
-- `dist/`, `node_modules/`, `.DS_Store`, `.vscode/` are all gitignored.
+- Deployed on **Vercel**. The `vercel.json` at root configures SPA fallback rewrites so all routes resolve to `index.html`.
+- Set all `VITE_*` environment variables in the Vercel project dashboard — they are NOT committed to git.
+- `dist/`, `node_modules/`, `.DS_Store`, `.vscode/` are gitignored.
 
 ---
 

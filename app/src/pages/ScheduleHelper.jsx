@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Papa from "papaparse";
-import { brand, publicAsset } from "../utils/helpers";
+import { brand } from "../utils/helpers";
 import Shell from "../components/Shell";
 
 export default function ScheduleHelper() {
@@ -76,12 +76,6 @@ export default function ScheduleHelper() {
           </div>
         )}
         <div className="flex flex-wrap gap-3">
-          <a
-            href={publicAsset("/class-schedule/index.sample.csv")}
-            className="rounded-xl border border-neutral-700 px-4 py-2 text-sm text-neutral-200 hover:border-neutral-400"
-          >
-            Download sample CSV
-          </a>
           <button
             type="button"
             onClick={downloadJson}

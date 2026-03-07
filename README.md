@@ -26,22 +26,6 @@ Notes:
 
 ## Photo gallery storage
 
-- Drop your gallery assets (JSON manifests + images) into `app/public/shows/` while developing locally. That folder is ignored by Git so large media files stay out of history.
-- For deployments, use the top-level `gallery/` directory (also ignored). `infra/docker-compose.yml` mounts it into the Nginx container at `/usr/share/nginx/html/shows`, matching what the React app expects at runtime.
-- Each show has an entry in `index.json` (an array of slugs) and its own `<slug>/photos.json` file describing images:
-
-  ```json
-  [
-    {
-      "src": "matilda/matilda-1.jpg",
-      "alt": "Curtain call",
-      "caption": "Matilda Jr. closing night"
-    }
-  ]
-  ```
-
-- Photo `src` values are resolved relative to the gallery root. Absolute URLs (e.g. pointing to an S3 bucket) are also supported.
-- Need to serve the gallery from a different origin? Set `VITE_GALLERY_BASE_URL` before building (for example `VITE_GALLERY_BASE_URL=https://photos.example.com`).
 - Want non-technical editors to manage the gallery? Mirror the sheet columns noted below in a Google Sheet, publish it as CSV, and set `VITE_GALLERY_SHEET_URL="https://docs.google.com/...&output=csv"`; the app groups rows by slug and falls back to the on-disk JSON manifests if the sheet is offline.
 - Gallery Sheet columns (case-insensitive, one row per photo): include `slug` (or `show`/`label` which will be slugified), `label`, `src`, optional `alt`/`caption`, and numeric `photo_order`/`show_order`. Rows missing a slug or src are skipped and any parse warnings appear in the gallery banner. For example:
 
