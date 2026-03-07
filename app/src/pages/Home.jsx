@@ -22,18 +22,6 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <motion.p
-            className="mx-auto mb-4 w-full max-w-xl rounded-full border px-4 py-2 text-center text-sm leading-snug md:inline-flex md:w-auto md:items-center md:justify-center md:gap-2"
-            style={{
-              borderColor: `${brand.purple}55`,
-              backgroundColor: `${brand.purple}22`,
-              color: brand.purpleSoft,
-            }}
-            initial={{ y: -6, opacity: 0 }}
-            animate={{ y: 0, opacity: 2 }}
-          >
-            We’ve moved — 5501 Hwy 55 E, Lake Wylie (@ Imagine Church)
-          </motion.p>
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight">
             Performing Arts Classes & Camps
           </h1>
