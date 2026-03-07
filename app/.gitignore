@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Node
+node_modules/
+npm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+
+# Vite build output
+dist/
+
+# Editor/OS
+.DS_Store
+.vscode/
+
+# Certs NEVER go in git (they live in Docker volumes)
+etc/letsencrypt
